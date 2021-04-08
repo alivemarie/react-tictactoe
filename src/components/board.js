@@ -80,14 +80,16 @@ export default function Board(props) {
         for (let i = 0; i < LINES.length; i++) {
             const [a, b, c] = LINES[i];
             const nextMove = boardState.xIsNext ? 'X' : 'O';
-
-            if (((Math.abs(POWER[squares[a]] + POWER[squares[b]] + POWER[squares[c]] + POWER[nextMove]) === 3)
-                && (boardState.movesLeft === 1))
-                || ((Math.abs(POWER[squares[a]] + POWER[squares[b]] + POWER[squares[c]] + 2*POWER[nextMove]) === 3)
-                    && (boardState.movesLeft > 1)))
-            {
-                return false;
+            if (!squares[a] || !squares[b] || !squares[c]) {
+                if (((Math.abs(POWER[squares[a]] + POWER[squares[b]] + POWER[squares[c]] + POWER[nextMove]) === 3)
+                    && (boardState.movesLeft === 1))
+                    || ((Math.abs(POWER[squares[a]] + POWER[squares[b]] + POWER[squares[c]] + 2*POWER[nextMove]) === 3)
+                        && (boardState.movesLeft > 1)))
+                {
+                    return false;
+                }
             }
+
         }
 
         return boardState.movesLeft;
