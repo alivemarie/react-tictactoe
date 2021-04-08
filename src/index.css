@@ -48,3 +48,20 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+.cross {
+  width: 4px;
+  height: 90px;
+  background-color: red;
+  position: fixed;
+  left: 35px;
+  top: 45px;
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+  /*transform: rotate(45deg);*/
+}
+
+.cross.active {
+  opacity: 1;
+}

@@ -3,6 +3,7 @@ import Square from "./square";
 
 export default function Board(props) {
     let status = '';
+    let crossed = false;
     const [firstPlayerScore, setFirstPlayerScore] = useState(
         {
             score: 0,
@@ -49,6 +50,12 @@ export default function Board(props) {
                     squares: Array(9).fill(''),
                     xIsNext: boardState.xIsNext
                 });
+            crossed = false;
+    }
+
+    function crossCells(line) {
+        crossed = true;
+        console.log('crossed!');
     }
 
     function calculateWinner(squares) {
@@ -65,6 +72,7 @@ export default function Board(props) {
         for (let i = 0; i < lines.length; i++) {
             const [a, b, c] = lines[i];
             if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                crossCells(lines[i]);
                 return squares[a];
             }
         }
@@ -109,6 +117,7 @@ export default function Board(props) {
             <div>
                 <div>{status}</div>
                 <button onClick={clearBoard}>Play again</button>
+                <div className={crossed ? "cross active" : "cross"}  ></div>
                     <div className="board-row">
                             {renderSquare(0)}
                             {renderSquare(1)}
