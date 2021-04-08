@@ -1,44 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Board from "./board";
+import Modal from "./modal";
+import '../modal.css'
 
 export default function Game() {
 
-    // const firstPlayerScore = useRef(
-    //     {
-    //         score: 0,
-    //         plays: 'X'
-    //     });
-    // const secondPlayerScore = useRef(
-    //     {
-    //         score: 0,
-    //         plays: 'O'
-    //     });
-    //
-    //
-    // function onWin(winner) {
-    //     console.log(`выиграл ${winner}`)
-    //     if (winner === firstPlayerScore.current.plays) {
-    //         firstPlayerScore.current.score++;
-    //     } else {
-    //         secondPlayerScore.current.score++;
-    //     }
-    //     const tempo = firstPlayerScore.current.plays;
-    //     firstPlayerScore.current.plays = secondPlayerScore.current.plays;
-    //     secondPlayerScore.current.plays = tempo;
-    //
-    // }
-
-
-
+    const [modalActive, setModalActive] = useState(true);
+    const [firstName, setFirstName] = useState('');
+    const [secondName, setSecondName] = useState('');
 
     return (
         <div className="game">
             <div className="game-board">
-                <Board />
+                <Board firstName={firstName} secondName={secondName}/>
             </div>
-            <div className="game-info">
-
-            </div>
+            <Modal active={modalActive} setActive={setModalActive}>
+                <form action="">
+                    <h1>Введите имена игроков:</h1>
+                    <input onChange={evt =>  { setFirstName(evt.target.value)}} type="text" name="" id="" value={firstName}/>
+                    <input onChange={evt =>  { setSecondName(evt.target.value)}} type="text" name="" id="" value={secondName}/>
+                    <div className='close-btn' onClick={() =>  setModalActive(false)}>X</div>
+                </form>
+            </Modal>
         </div>
     );
 }

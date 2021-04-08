@@ -1,21 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import Square from "./square";
 
-export default function Board() {
+export default function Board(props) {
     let status = '';
     const [firstPlayerScore, setFirstPlayerScore] = useState(
         {
-            name: 'Vasya',
             score: 0,
             plays: 'X'
         });
     const [secondPlayerScore, setSecondPlayerScore] = useState(
         {
-            name: 'Anna',
             score: 0,
             plays: 'O'
         });
-
+    console.log(props);
 
     const [boardState, setBoardState] = useState(
         {
@@ -80,10 +78,7 @@ export default function Board() {
     let winner = calculateWinner(boardState.squares);
 
     useEffect(() => {
-        console.log(winner);
-        if (winner) {
-            status = 'Выиграл ' + winner;
-        }
+
         if (winner === firstPlayerScore.plays) {
                 setFirstPlayerScore(prev => {
                     return {
@@ -131,8 +126,8 @@ export default function Board() {
                     </div>
                 <ol>
                                <li>Score</li>
-                               <li>{firstPlayerScore.name}: {firstPlayerScore.score}</li>
-                               <li>{secondPlayerScore.name}: {secondPlayerScore.score}</li>
+                               <li>{props.firstName}: {firstPlayerScore.score}</li>
+                               <li>{props.secondName}: {secondPlayerScore.score}</li>
                 </ol>
             </div>
 
