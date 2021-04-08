@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Square from './square';
+import {styles} from "../utils";
 
 export default function Board(props) {
     let status = '';
     let crossed = false;
+    let lineStyle;
+
     const [firstPlayerScore, setFirstPlayerScore] = useState(
         {
             score: 0,
@@ -18,7 +21,8 @@ export default function Board(props) {
     const [boardState, setBoardState] = useState(
         {
             squares: Array(9).fill(''),
-            xIsNext: true
+            xIsNext: true,
+            movesLeft: 9
         })
 
     function handleClick(i) {
@@ -30,7 +34,8 @@ export default function Board(props) {
         setBoardState(
             {
                 squares: squares,
-                xIsNext: !boardState.xIsNext
+                xIsNext: !boardState.xIsNext,
+                movesLeft: boardState.movesLeft - 1
             });
     }
 
@@ -47,23 +52,13 @@ export default function Board(props) {
             setBoardState(
                 {
                     squares: Array(9).fill(''),
-                    xIsNext: boardState.xIsNext
+                    xIsNext: boardState.xIsNext,
+                    movesLeft: 9
                 });
             crossed = false;
     }
-    let lineStyle;
 
     function crossCells(line) {
-        const styles = new Map();
-        styles.set('012', {transform: 'rotate(90deg)', top: '-57px'})
-        styles.set('345', {transform: 'rotate(90deg)'})
-        styles.set('678', {transform: 'rotate(90deg)', top: '143px'})
-        styles.set('036', {left: '90px'})
-        styles.set('147', {left: '190px'})
-        styles.set('258', {left: '290px'})
-        styles.set('048', {transform: 'rotate(135deg)'})
-        styles.set('246', {transform: 'rotate(45deg)'})
-
         crossed = true;
         lineStyle = styles.get(line.join(''));
     }
@@ -90,7 +85,36 @@ export default function Board(props) {
     }
 
     function defineDraw(squares) {
-        return !squares.includes('');
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
+            const nextMove = boardState.xIsNext ? 'X' : 'O';
+            const power = {
+                'X': 1,
+                'O': -1,
+                '': 0
+            }
+
+            if (((Math.abs(power[squares[a]] + power[squares[b]] + power[squares[c]] + power[nextMove]) === 3)
+                && (boardState.movesLeft === 1))
+                || ((Math.abs(power[squares[a]] + power[squares[b]] + power[squares[c]] + 2*power[nextMove]) === 3)
+                    && (boardState.movesLeft > 1)))
+            {
+                return false;
+            }
+
+        }
+
+        return boardState.movesLeft;
     }
 
     let winner = calculateWinner(boardState.squares);
@@ -117,11 +141,13 @@ export default function Board(props) {
     }, [winner]);
 
 
-
-    if ((defineDraw(boardState.squares)) && !winner) {
-        status = 'Ничья!';
-        setTimeout(clearBoard, 2000)
+    if (boardState.movesLeft < 4) {
+        if ((defineDraw(boardState.squares)) && !winner) {
+            status = 'Ничья!';
+            setTimeout(clearBoard, 2000)
+        }
     }
+
 
     return (
             <div className='flexbox'>
@@ -133,6 +159,7 @@ export default function Board(props) {
                 </ul>
                 <button className='btn-clear' onClick={clearBoard}>Clear board</button>
                 <div className='status'>{status}</div>
+                    <div className="moves_left">Осталось ходов : {boardState.movesLeft}</div>
                 <div className={crossed ? 'cross active' : 'cross'} style={lineStyle}></div>
                 </div>
                 <div className='game-board'>
