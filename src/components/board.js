@@ -14,7 +14,6 @@ export default function Board(props) {
             score: 0,
             plays: 'O'
         });
-    console.log(props);
 
     const [boardState, setBoardState] = useState(
         {
@@ -52,10 +51,21 @@ export default function Board(props) {
                 });
             crossed = false;
     }
+    let lineStyle;
 
     function crossCells(line) {
+        const styles = new Map();
+        styles.set('012', {transform: 'rotate(90deg)', top: '-57px'})
+        styles.set('345', {transform: 'rotate(90deg)'})
+        styles.set('678', {transform: 'rotate(90deg)', top: '143px'})
+        styles.set('036', {left: '90px'})
+        styles.set('147', {left: '190px'})
+        styles.set('258', {left: '290px'})
+        styles.set('048', {transform: 'rotate(135deg)'})
+        styles.set('246', {transform: 'rotate(45deg)'})
+
         crossed = true;
-        console.log('crossed!');
+        lineStyle = styles.get(line.join(''));
     }
 
     function calculateWinner(squares) {
@@ -123,7 +133,7 @@ export default function Board(props) {
                 </ul>
                 <button className='btn-clear' onClick={clearBoard}>Clear board</button>
                 <div className='status'>{status}</div>
-                <div className={crossed ? 'cross active' : 'cross'}></div>
+                <div className={crossed ? 'cross active' : 'cross'} style={lineStyle}></div>
                 </div>
                 <div className='game-board'>
                     <div className='board-row'>

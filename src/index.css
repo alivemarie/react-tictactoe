@@ -134,7 +134,6 @@ ol, ul {
   left: 190px;
   top: 43px;
   opacity: 0;
-  transition: 0.3s;
   pointer-events: none;
   z-index: 3;
   /*transform: rotate(45deg);*/
