@@ -14,14 +14,8 @@ export default function Game() {
             <div className="game-board">
                 <Board firstName={firstName} secondName={secondName}/>
             </div>
-            <Modal active={modalActive} setActive={setModalActive}>
-                <form action="">
-                    <h1>Введите имена игроков:</h1>
-                    <input onChange={evt =>  { setFirstName(evt.target.value)}} type="text" name="" id="" value={firstName}/>
-                    <input onChange={evt =>  { setSecondName(evt.target.value)}} type="text" name="" id="" value={secondName}/>
-                    <div className='close-btn' onClick={() =>  setModalActive(false)}>X</div>
-                </form>
-            </Modal>
+            <Modal active={modalActive} setActive={setModalActive}
+                   setFirstName={setFirstName} setSecondName={setSecondName}/>
         </div>
     );
 }
