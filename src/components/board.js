@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Square from './square';
-import {styles} from "../utils";
+import {STYLES, LINES, POWER} from "../const";
 
 export default function Board(props) {
-    let status = '';
-    let crossed = false;
-    let lineStyle;
+    let status = ''; // если ничья - то выведется статус "Ничья"
+    let crossed = false; // статус активности красной линии
+    let lineStyle; // стили для красной линии, будут определяться при победе - где показать линию
 
     const [firstPlayerScore, setFirstPlayerScore] = useState(
         {
@@ -58,60 +58,36 @@ export default function Board(props) {
             crossed = false;
     }
 
-    function crossCells(line) {
+    function crossCells(line) { // матчит выигрышную линию с нужным положением красной линии
         crossed = true;
-        lineStyle = styles.get(line.join(''));
+        lineStyle = STYLES.get(line.join(''));
     }
 
     function calculateWinner(squares) {
-        const lines = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6],
-        ];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
+        for (let i = 0; i < LINES.length; i++) {
+            const [a, b, c] = LINES[i];
             if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                crossCells(lines[i]);
+                crossCells(LINES[i]);
                 return squares[a];
             }
         }
         return null;
     }
 
+    // подсчитывает возможен ли ещё выигрыш по модулю суммы всех клеток,
+    // если Х = 1, O = -1, пустая клетка = 0
     function defineDraw(squares) {
-        const lines = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6],
-        ];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
+        for (let i = 0; i < LINES.length; i++) {
+            const [a, b, c] = LINES[i];
             const nextMove = boardState.xIsNext ? 'X' : 'O';
-            const power = {
-                'X': 1,
-                'O': -1,
-                '': 0
-            }
 
-            if (((Math.abs(power[squares[a]] + power[squares[b]] + power[squares[c]] + power[nextMove]) === 3)
+            if (((Math.abs(POWER[squares[a]] + POWER[squares[b]] + POWER[squares[c]] + POWER[nextMove]) === 3)
                 && (boardState.movesLeft === 1))
-                || ((Math.abs(power[squares[a]] + power[squares[b]] + power[squares[c]] + 2*power[nextMove]) === 3)
+                || ((Math.abs(POWER[squares[a]] + POWER[squares[b]] + POWER[squares[c]] + 2*POWER[nextMove]) === 3)
                     && (boardState.movesLeft > 1)))
             {
                 return false;
             }
-
         }
 
         return boardState.movesLeft;
@@ -119,7 +95,7 @@ export default function Board(props) {
 
     let winner = calculateWinner(boardState.squares);
 
-    useEffect(() => {
+    useEffect(() => { // следит, кто победил, меняет счёт игрока и очищает доску через 2 сек
 
         if (winner === firstPlayerScore.plays) {
                 setFirstPlayerScore(prev => {
@@ -141,7 +117,7 @@ export default function Board(props) {
     }, [winner]);
 
 
-    if (boardState.movesLeft < 4) {
+    if (boardState.movesLeft < 4) { // макс число пустых клеток для ничьей - 3
         if ((defineDraw(boardState.squares)) && !winner) {
             status = 'Ничья!';
             setTimeout(clearBoard, 2000)
@@ -158,8 +134,8 @@ export default function Board(props) {
                     <li>{props.secondName ? props.secondName : 'Player-2'}: {secondPlayerScore.score}</li>
                 </ul>
                 <button className='btn-clear' onClick={clearBoard}>Clear board</button>
-                <div className='status'>{status}</div>
                     <div className="moves_left">Осталось ходов : {boardState.movesLeft}</div>
+                <div className='status'>{status}</div>
                 <div className={crossed ? 'cross active' : 'cross'} style={lineStyle}></div>
                 </div>
                 <div className='game-board'>

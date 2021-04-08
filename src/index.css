@@ -36,6 +36,7 @@ ol, ul {
 }
 
 .btn-clear {
+  margin-bottom: 15px;
   width: 100px;
   height: 30px;
   font-family: 'Raleway', sans-serif;
@@ -136,7 +137,6 @@ ol, ul {
   opacity: 0;
   pointer-events: none;
   z-index: 3;
-  /*transform: rotate(45deg);*/
 }
 
 .cross.active {
