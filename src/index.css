@@ -1,43 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+  padding: 0;
+  margin: 0;
 }
 
 ol, ul {
-  padding-left: 30px;
+  margin-top: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game {
+  background-color: #55607b;
+  width: 100vw;
+  height: 100vh;
+  padding: 40px;
+}
+
+.flexbox {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.scoreboard {
+  color: white;
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.scoreboard li {
+  margin-bottom: 15px;
+}
+
+.btn-clear {
+  width: 100px;
+  height: 30px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  background-color: #e0d697;
+  border: 1px solid #a3863d;
+  border-radius: 0;
+}
+
+.btn-clear:focus {
+  outline: none;
+}
+
+.btn-clear:active {
+  background-color: #ada675;
+  border: 1px solid #685526;
+}
+
+.status {
+  margin-top: 20px;
+  font-size: 30px;
+}
+
+.board-row {
+  height: 104px;
 }
 
 .board-row:after {
   clear: both;
   content: "";
-  display: table;
+  display: block;
+
 }
 
-.status {
-  margin-bottom: 10px;
+.board-row:not(:last-of-type):after {
+  display: block;
+  content: '';
+  position: relative;
+  left: -5px;
+  border-radius: 2px;
+  width: 310px;
+  height: 4px;
+  background-color: #9c5dbb;
 }
 
 .square {
-  background: #fff;
-  border: 1px solid #999;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  background: #43435c;
+  border: 0;
   float: left;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 70px;
   line-height: 34px;
-  height: 34px;
+  height: 100px;
+  width: 100px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
 }
 
 .square:focus {
   outline: none;
 }
+.board-row:first-of-type .square:not(:first-of-type) {
+  position: relative;
+}
 
-.kbd-navigation .square:focus {
-  background: #ddd;
+.board-row:first-of-type .square:not(:first-of-type):after {
+  display: block;
+  content: '';
+  position: absolute;
+  top: -5px;
+  border-radius: 2px;
+  width: 4px;
+  height: 318px;
+  background-color: #9c5dbb;
 }
 
 .game {
@@ -50,15 +126,17 @@ ol, ul {
 }
 
 .cross {
-  width: 4px;
-  height: 90px;
-  background-color: red;
-  position: fixed;
-  left: 35px;
-  top: 45px;
+  width: 6px;
+  height: 300px;
+  background-color: #a3453d;
+  border-radius: 2px;
+  position: absolute;
+  left: 190px;
+  top: 43px;
   opacity: 0;
   transition: 0.3s;
   pointer-events: none;
+  z-index: 3;
   /*transform: rotate(45deg);*/
 }
 

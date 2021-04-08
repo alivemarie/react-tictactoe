@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import Board from "./board";
-import Modal from "./modal";
-import '../modal.css'
+import '../index.css'
+import Board from './board';
+import Modal from './modal';
 
 export default function Game() {
 
@@ -10,10 +10,8 @@ export default function Game() {
     const [secondName, setSecondName] = useState('');
 
     return (
-        <div className="game">
-            <div className="game-board">
-                <Board firstName={firstName} secondName={secondName}/>
-            </div>
+        <div className='game'>
+            <Board firstName={firstName} secondName={secondName}/>
             <Modal active={modalActive} setActive={setModalActive}
                    setFirstName={setFirstName} setSecondName={setSecondName}/>
         </div>

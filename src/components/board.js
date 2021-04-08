@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Square from "./square";
+import Square from './square';
 
 export default function Board(props) {
     let status = '';
@@ -114,30 +114,34 @@ export default function Board(props) {
     }
 
     return (
-            <div>
-                <div>{status}</div>
-                <button onClick={clearBoard}>Play again</button>
-                <div className={crossed ? "cross active" : "cross"}  ></div>
-                    <div className="board-row">
+            <div className='flexbox'>
+                <div className='game-info'>
+                <ul className='scoreboard'>
+                    <li>Score</li>
+                    <li>{props.firstName ? props.firstName : 'Player-1'}: {firstPlayerScore.score}</li>
+                    <li>{props.secondName ? props.secondName : 'Player-2'}: {secondPlayerScore.score}</li>
+                </ul>
+                <button className='btn-clear' onClick={clearBoard}>Clear board</button>
+                <div className='status'>{status}</div>
+                <div className={crossed ? 'cross active' : 'cross'}></div>
+                </div>
+                <div className='game-board'>
+                    <div className='board-row'>
                             {renderSquare(0)}
                             {renderSquare(1)}
                             {renderSquare(2)}
                     </div>
-                    <div className="board-row">
+                    <div className='board-row'>
                             {renderSquare(3)}
                             {renderSquare(4)}
                             {renderSquare(5)}
                     </div>
-                    <div className="board-row">
+                    <div className='board-row'>
                             {renderSquare(6)}
                             {renderSquare(7)}
                             {renderSquare(8)}
                     </div>
-                <ol>
-                               <li>Score</li>
-                               <li>{props.firstName}: {firstPlayerScore.score}</li>
-                               <li>{props.secondName}: {secondPlayerScore.score}</li>
-                </ol>
+                </div>
             </div>
 
     );
